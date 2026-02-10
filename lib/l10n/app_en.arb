@@ -1,0 +1,52 @@
+{
+  "@allCentresInCity": {
+    "description": "顯示特定城市的中心列表",
+    "placeholders": {
+      "city": {
+        "example": "Taipei",
+        "type": "String"
+      }
+    }
+  },
+  "@capacitySeats": {
+    "description": "顯示座位數，自動處理複數 (e.g. 1 Seat, 2 Seats)",
+    "placeholders": {
+      "count": {
+        "format": "compact",
+        "type": "int"
+      }
+    }
+  },
+  "allCentresInCity": "All Centres in {city}",
+  "allCentresInTheCity": "All Centres in the City",
+  "apply": "Apply",
+  "cancel": "Cancel",
+  "capacity": "Capacity",
+  "capacitySeats": "{count, plural, =1{1 Seat} other{{count} Seats}}",
+  "centres": "Centres",
+  "coworking": "Coworking",
+  "date": "Date",
+  "dayOffice": "Day Office",
+  "done": "Done",
+  "endTime": "End Time",
+  "eventSpace": "Event Space",
+  "locatedNearestCity": "Located nearest city",
+  "location": "Location",
+  "locationPermissionDenied": "Location permission denied.",
+  "locationPermissionPermanentlyDeniedMessage": "Location permissions are permanently denied, please enable them in settings.",
+  "locationPermissionRequired": "Location Permission Required",
+  "locationServiceDisabled": "Location services are disabled.",
+  "meetingRoom": "Meeting Room",
+  "multipleCentresSelected": "Multiple Centres Selected",
+  "noResultMatches": "No result matches your result criteria",
+  "openSettings": "Open Settings",
+  "pleaseSelectYourCity": "Please select your city",
+  "reset": "Reset",
+  "save": "Save",
+  "selectCentres": "Select Centres",
+  "selectNearestCity": "Select Nearest City",
+  "settings": "Settings",
+  "startTime": "Start Time",
+  "unableToDetermineLocation": "Unable to determine location",
+  "videoConference": "Video Conference"
+}
