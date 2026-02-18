@@ -3,7 +3,7 @@ import 'package:tec/core/theme/app_colors.dart';
 
 class AppTheme {
   const AppTheme._();
-  static const double _cornerRadius = 16;
+  static const double _cornerRadius = 12;
 
   static ThemeData get light {
     final base = ThemeData(
@@ -149,7 +149,7 @@ class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.textPrimary,
-          side: const BorderSide(color: AppColors.brand),
+          side: BorderSide(color: AppColors.borderLight),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(_cornerRadius),
           ),
