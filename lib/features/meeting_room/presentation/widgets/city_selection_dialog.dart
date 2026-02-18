@@ -348,7 +348,7 @@ class _CitySelectionDialogState extends ConsumerState<CitySelectionDialog> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
-            color: AppColors.gray,
+            color: AppColors.borderLight,
           ),
         ),
       ),

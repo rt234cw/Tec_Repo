@@ -30,16 +30,16 @@ class MapResizableTabSheet extends StatefulWidget {
     this.onFullChanged,
   });
 
-  // 上方共用的地圖（會被擠壓縮小）
+  /// 底層 Map（Stack 底部）
   final Widget map;
 
-  // 每個 tab 在 sheet 內的內容
+  /// 每個 tab 在 sheet 內的內容
   final List<Widget> tabChildren;
 
-  // 外部控制（滿版 / 回 peek）
+  /// 外部控制（滿版 / 回 peek）
   final MapResizableTabSheetController? controller;
 
-  // 回報是否滿版（讓 AppBar icon 切換）
+  /// 回報是否滿版（讓 AppBar icon 切換）
   final ValueChanged<bool>? onFullChanged;
 
   @override
@@ -63,6 +63,10 @@ class MapResizableTabSheetState extends State<MapResizableTabSheet> with SingleT
   // header 尚未量到時的保底高度（避免一開始 min 太小）
   static const double _headerFallback = 56.0;
 
+  /// 這裡適合用在有手動在 header 增加任何 widget 時
+  /// 可以手動額外增加高度
+  static const double _peekExtraPx = 1;
+
   late double _sheetHeight;
   late final AnimationController _controller;
 
@@ -72,7 +76,6 @@ class MapResizableTabSheetState extends State<MapResizableTabSheet> with SingleT
   double? _lastTotalH;
   bool? _lastIsFull;
   bool _isDragging = false;
-
   bool _didInitHeight = false;
 
   // 每個 tab 的 header 高度
@@ -95,11 +98,6 @@ class MapResizableTabSheetState extends State<MapResizableTabSheet> with SingleT
     setState(() => _tabHeaderHeights[tabIndex] = height);
   }
 
-  /// 這裡適合用在有手動在header增加任何widget時
-  /// 可以手動額外增加高度
-  /// 但目前的設計可以符合現有設計
-  /// 暫時先增加，以便隨時動態調整
-  static const double _peekExtraPx = 1;
   @override
   void initState() {
     super.initState();
@@ -281,7 +279,6 @@ class MapResizableTabSheetState extends State<MapResizableTabSheet> with SingleT
         if (_sheetHeight > maxSheet) _sheetHeight = maxSheet;
 
         final sheetH = _sheetHeight.clamp(minSheetPx, maxSheet);
-        final mapH = (totalH - sheetH).clamp(0.0, totalH);
 
         final effectiveSnaps = <double>{minR, _midSnap, _maxSnap}.toList()..sort();
 
@@ -300,17 +297,27 @@ class MapResizableTabSheetState extends State<MapResizableTabSheet> with SingleT
           });
         }
 
-        return Column(
+        return Stack(
           children: [
-            SizedBox(height: mapH, child: widget.map),
-            SizedBox(
+            //  底層 Map：維持整個背景，不被擠壓，只是被 sheet 蓋住
+            Positioned.fill(
+              child: widget.map,
+            ),
+
+            // 伸縮 Sheet：疊在上層
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
               height: sheetH,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.easeOutCubic,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(radius)),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(radius),
+                  ),
                   boxShadow: chrome <= 0.02
                       ? const []
                       : const [
@@ -322,7 +329,9 @@ class MapResizableTabSheetState extends State<MapResizableTabSheet> with SingleT
                         ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(radius)),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(radius),
+                  ),
                   child: Column(
                     children: [
                       // 同步縮到 0（不會兩段跳）
