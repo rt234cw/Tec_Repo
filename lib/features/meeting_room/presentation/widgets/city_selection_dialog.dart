@@ -255,24 +255,48 @@ class _CitySelectionDialogState extends ConsumerState<CitySelectionDialog> {
                     const SizedBox(height: 24),
 
                     // Nearest Button
-                    OutlinedButton.icon(
-                      onPressed: isLocating ? null : _handleNearestCity,
-                      icon: isLocating
-                          ? const SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(AppColors.gray),
+                    InkWell(
+                      onTap: isLocating ? null : _handleNearestCity,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: AppColors.borderLight),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.dialogShadow,
+                              blurRadius: 8,
+                              offset: Offset(2, 2),
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                isLocating ? "Locating..." : context.loc.selectNearestCity,
                               ),
-                            )
-                          : const Icon(Icons.near_me_outlined),
-
-                      // 文字變化：定位中顯示 "Locating..."
-                      label: Text(
-                        isLocating ? "Locating..." : context.loc.selectNearestCity,
+                              const SizedBox(width: 8),
+                              isLocating
+                                  ? SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.gray),
+                                      ),
+                                    )
+                                  : Icon(
+                                      Icons.near_me_outlined,
+                                      color: AppColors.brand,
+                                      size: 16,
+                                    ),
+                            ],
+                          ),
+                        ),
                       ),
-                      iconAlignment: IconAlignment.end,
                     ),
                     const SizedBox(height: 8),
 
